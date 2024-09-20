@@ -1,0 +1,66 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendario de Reflexiones</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            text-align: center;
+            padding: 10px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Calendario de Reflexiones</h1>
+    <div id="calendar"></div>
+
+    <script>
+        function createCalendar(month, year) {
+            const daysOfWeek = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
+            const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+
+            let firstDay = new Date(year, month).getDay();
+            let daysInMonth = new Date(year, month + 1, 0).getDate();
+
+            let calendar = `<h2>${monthNames[month]} ${year}</h2>`;
+            calendar += '<table><tr>';
+
+            daysOfWeek.forEach(day => calendar += `<th>${day}</th>`);
+            calendar += '</tr><tr>';
+
+            for (let i = 0; i < firstDay; i++) {
+                calendar += '<td></td>';
+            }
+
+            for (let day = 1; day <= daysInMonth; day++) {
+                if ((day + firstDay - 1) % 7 === 0) {
+                    calendar += '</tr><tr>';
+                }
+                calendar += `<td><a href="audios/dia${day}.mp3" target="_blank">${day}</a></td>`;
+            }
+
+            calendar += '</tr></table>';
+            return calendar;
+        }
+
+        function loadCalendar() {
+            const today = new Date();
+            const calendarHTML = createCalendar(today.getMonth(), today.getFullYear());
+            document.getElementById('calendar').innerHTML = calendarHTML;
+        }
+
+        window.onload = loadCalendar;
+    </script>
+
+</body>
+</html>
